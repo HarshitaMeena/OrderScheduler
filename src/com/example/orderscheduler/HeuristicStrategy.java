@@ -17,7 +17,6 @@ public class HeuristicStrategy extends Warehouse {
 
         timeWeight = 1;
         distanceWeight = 1;
-        completeOrders = new ArrayList<DroneOrder>();
 
         priorityOrders = new PriorityQueue<DroneOrder>(10, new Comparator<DroneOrder>() {
             @Override

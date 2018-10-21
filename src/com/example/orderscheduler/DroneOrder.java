@@ -61,12 +61,19 @@ public class DroneOrder {
         this.deliveredTime = dTime;
     }
 
+    /**
+     *
+     * @return For the promoter the time for delivery is taken from the warehouse open time
+     * or the arrival time if the order arrived after warehouse open time
+     */
+
     public boolean isPromoter() {
-        return ((deliveredTime-arrivalTime)/3600 <= 1);
+        long actualProcessingTime = Math.max(arrivalTime, 6*3600);
+        return ((deliveredTime-actualProcessingTime) <= 3600);
     }
 
     public boolean isDetractor() {
-        return ((deliveredTime-arrivalTime)/3600 >= 4);
+        return ((deliveredTime-arrivalTime) >= 3600*4);
     }
 
     public double getxCoordinate() {

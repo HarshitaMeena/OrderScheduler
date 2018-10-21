@@ -11,7 +11,6 @@ public class StrategyBasic extends Warehouse {
 
         incomingOrders = new ArrayList<DroneOrder>();
         priorityOrders = new ArrayList<DroneOrder>();
-        completeOrders = new ArrayList<DroneOrder>();
     }
 
 

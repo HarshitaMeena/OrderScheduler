@@ -31,6 +31,7 @@ abstract public class Warehouse {
         this.deliveryDrone = drone;
         this.promoters = 0;
         this.detractors = 0;
+        completeOrders = new ArrayList<DroneOrder>();
     }
 
     /**
