@@ -11,10 +11,9 @@ public class OrderScheduler {
         StrategyBasicTest.scenarioOne();
         StrategyBasicTest.scenarioTwo();
         StrategyBasicTest.scenarioThree();
-        //StrategyBasicTest.scenarioFour();
-        //StrategyBasicTest.scenarioFive();
-        //StrategyBasicTest.scenarioSix();
-
+        StrategyBasicTest.scenarioFour();
+        StrategyBasicTest.scenarioFive();
+        StrategyBasicTest.scenarioSix();
 
 
         HeuristicStrategyTest.scenarioOne();
