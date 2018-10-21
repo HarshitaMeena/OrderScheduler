@@ -85,7 +85,11 @@ public class DroneOrder {
         return arrivalTime;
     }
 
-    public String droneDepartureTime(long currenttime) {
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public String timeFormat(long currenttime) {
         long time = currenttime;
         String hour = getDigitalForm(Math.toIntExact(Math.round(time / 3600)));
         time = time%3600;
@@ -113,6 +117,7 @@ public class DroneOrder {
     @Override
     public String toString() {
         return "Order: " + orderId + ", xCoordinate: " + xCoordinate + ", yCoordinate: " + yCoordinate
-                + ", distance from origin: " + distanceFromOrigin + ", arrival time : " + arrivalTime;
+                + ", distance from origin: " + distanceFromOrigin + ", arrival time : " + timeFormat(arrivalTime)
+                + ", DeliveredTime: " + timeFormat(deliveredTime);
     }
 }

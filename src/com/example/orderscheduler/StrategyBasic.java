@@ -3,8 +3,6 @@ import java.util.ArrayList;
 
 public class StrategyBasic extends Warehouse {
 
-    private ArrayList<DroneOrder> completeOrders;
-
     private ArrayList<DroneOrder> incomingOrders;
     private ArrayList<DroneOrder> priorityOrders;
 
@@ -15,6 +13,8 @@ public class StrategyBasic extends Warehouse {
         priorityOrders = new ArrayList<DroneOrder>();
         completeOrders = new ArrayList<DroneOrder>();
     }
+
+
     /**
      * The main function for processing the orders -
      * 1 ) Get order from the server in the currenttime constraint
@@ -23,6 +23,7 @@ public class StrategyBasic extends Warehouse {
      * 3 ) Advance time accordingly, else advance time in seconds
      * 4 ) Keep on doing this till the end of day.
      */
+    @Override
     public void startProcessingOrder() {
 
         while (currentTime < closeTime) {
@@ -33,7 +34,7 @@ public class StrategyBasic extends Warehouse {
                 deliveryDrone.setOrder(nextorder);
                 nextorder.setDeliveredTime(currentTime + (deliveryDrone.getArrivalTime() / 2));
                 System.out.println(nextorder);
-                System.out.println(nextorder.droneDepartureTime(currentTime));
+                System.out.println(nextorder.timeFormat(currentTime));
                 checkPromoterOrDetractor(nextorder);
                 currentTime += deliveryDrone.getArrivalTime();
             }
@@ -109,18 +110,6 @@ public class StrategyBasic extends Warehouse {
         }
     }
 
-    /**
-     *
-     * @param order Update function to collect the number of promoters/detractors
-     */
-    private void checkPromoterOrDetractor(DroneOrder order) {
-        if (order.isPromoter()) {
-            promoters++;
-        } else if (order.isDetractor()) {
-            detractors++;
-        }
-    }
-
     private double getNPSValue() {
         totalOrders += priorityOrders.size();
         totalOrders += incomingOrders.size();
@@ -128,5 +117,4 @@ public class StrategyBasic extends Warehouse {
         detractors += incomingOrders.size();
         return 100.0*(promoters-detractors)/totalOrders;
     }
-
 }

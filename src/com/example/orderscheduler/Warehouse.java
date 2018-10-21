@@ -2,7 +2,7 @@ package com.example.orderscheduler;
 
 import java.util.ArrayList;
 
-public class Warehouse {
+abstract public class Warehouse {
     protected long openTime;
     protected long closeTime;
     protected long currentTime;
@@ -13,6 +13,9 @@ public class Warehouse {
     protected  Drone deliveryDrone;
 
     protected CustomerOrderServer orderServer;
+    protected ArrayList<DroneOrder> completeOrders;
+
+    abstract public void startProcessingOrder();
 
     /**
      *
@@ -28,6 +31,23 @@ public class Warehouse {
         this.deliveryDrone = drone;
         this.promoters = 0;
         this.detractors = 0;
+    }
+
+    /**
+     *
+     * @param order Update function to collect the number of promoters/detractors
+     */
+    protected void checkPromoterOrDetractor(DroneOrder order) {
+        if (order.isPromoter()) {
+            promoters++;
+        } else if (order.isDetractor()) {
+            detractors++;
+        }
+    }
+
+
+    public ArrayList<DroneOrder> getCompleteOrders() {
+        return completeOrders;
     }
 
 }
