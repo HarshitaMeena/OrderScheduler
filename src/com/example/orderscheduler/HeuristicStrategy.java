@@ -10,12 +10,13 @@ public class HeuristicStrategy extends Warehouse {
     PriorityQueue<DroneOrder> priorityOrders;
     int timeWeight;
     int distanceWeight;
+    int totalDistance;
 
 
     public HeuristicStrategy(CustomerOrderServer orderServer, Drone drone, long startTime, long endTime) {
         super(orderServer, drone, startTime, endTime);
 
-        timeWeight = 1;
+        timeWeight = 3;
         distanceWeight = 1;
 
         priorityOrders = new PriorityQueue<DroneOrder>(10, new Comparator<DroneOrder>() {
@@ -80,6 +81,7 @@ public class HeuristicStrategy extends Warehouse {
         ArrayList<DroneOrder> toserve = orderServer.getNextSetOfOrders(currentTime);
         for (int i = 0; i < toserve.size(); ++i) {
             totalOrders++;
+            totalDistance += toserve.get(i).getDistanceFromOrigin();
             priorityOrders.add(toserve.get(i));
         }
     }

@@ -3,12 +3,17 @@ import java.util.StringTokenizer;
 import java.lang.Math;
 
 public class DroneOrder {
+    private static long detractorLimit = 4*3600;
+    private static long promoterLimit = 3600;
+    private static long starttime = 6*3600;
+
     private double xCoordinate;
     private double yCoordinate;
     private double distanceFromOrigin;
     private long arrivalTime;
     private long deliveredTime = 22*3600;
     private String orderId;
+
 
     /**
      *
@@ -68,12 +73,12 @@ public class DroneOrder {
      */
 
     public boolean isPromoter() {
-        long actualProcessingTime = Math.max(arrivalTime, 6*3600);
-        return ((deliveredTime-actualProcessingTime) <= 3600);
+        long actualProcessingTime = Math.max(arrivalTime, starttime);
+        return ((deliveredTime-actualProcessingTime) <= promoterLimit);
     }
 
     public boolean isDetractor() {
-        return ((deliveredTime-arrivalTime) >= 3600*4);
+        return ((deliveredTime-arrivalTime) >= detractorLimit);
     }
 
     public double getxCoordinate() {

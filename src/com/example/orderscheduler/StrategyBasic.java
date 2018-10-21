@@ -1,16 +1,37 @@
 package com.example.orderscheduler;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.PriorityQueue;
 
 public class StrategyBasic extends Warehouse {
 
-    private ArrayList<DroneOrder> incomingOrders;
-    private ArrayList<DroneOrder> priorityOrders;
+    private PriorityQueue<DroneOrder> incomingOrders;
+    private PriorityQueue<DroneOrder> priorityOrders;
 
     public StrategyBasic(CustomerOrderServer orderServer, Drone drone, long startTime, long endTime) {
         super(orderServer, drone, startTime, endTime);
 
-        incomingOrders = new ArrayList<DroneOrder>();
-        priorityOrders = new ArrayList<DroneOrder>();
+        incomingOrders = new PriorityQueue<>(10, new Comparator<DroneOrder>() {
+            @Override
+            public int compare(DroneOrder o1, DroneOrder o2) {
+                if (o1.getDistanceFromOrigin() == o2.getDistanceFromOrigin()) {
+                    System.out.println(o1);
+                    return (int)(o1.getArrivalTime()-o2.getArrivalTime());
+                } else if (o1.getDistanceFromOrigin() > o2.getDistanceFromOrigin()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+
+        priorityOrders = new PriorityQueue<>(10, new Comparator<DroneOrder>() {
+            @Override
+            public int compare(DroneOrder o1, DroneOrder o2) {
+                return (int)(o1.getArrivalTime()-o2.getArrivalTime());
+            }
+        });
     }
 
 
@@ -26,10 +47,17 @@ public class StrategyBasic extends Warehouse {
     public void startProcessingOrder() {
 
         while (currentTime < closeTime) {
+
             setPriorityOrders();
             getOrdersFromServer();
+            if (currentTime < 7*3600) {
+                //System.out.println(incomingOrders);
+                //System.out.println(priorityOrders);
+            }
             DroneOrder nextorder = getNextOrder();
+
             if (nextorder != null) {
+                //System.out.println(nextorder);
                 deliveryDrone.setOrder(nextorder);
                 nextorder.setDeliveredTime(currentTime + (deliveryDrone.getArrivalTime() / 2));
                 System.out.println(nextorder);
@@ -53,21 +81,15 @@ public class StrategyBasic extends Warehouse {
      */
     private DroneOrder getNextOrder() {
         DroneOrder nextorder = null;
-        if (priorityOrders.size() > 0) {
-            nextorder = priorityOrders.get(0);
-            priorityOrders.remove(0);
-        } else {
-            int index = -1;
-            for (int i = 0; i < incomingOrders.size(); ++i) {
-                if (nextorder == null || incomingOrders.get(i).getDistanceFromOrigin() < nextorder.getDistanceFromOrigin()) {
-                    nextorder = incomingOrders.get(i);
-                    index = i;
-                }
-            }
-            if (index != -1) {
-                incomingOrders.remove(index);
-            }
+        Iterator<DroneOrder> it = priorityOrders.iterator();
 
+        if(it.hasNext()) {
+            nextorder = priorityOrders.poll();
+        } else {
+            Iterator<DroneOrder> itio = incomingOrders.iterator();
+            if (itio.hasNext()) {
+                nextorder = incomingOrders.poll();
+            }
         }
 
         if (nextorder != null) {
@@ -83,14 +105,18 @@ public class StrategyBasic extends Warehouse {
      */
 
     private void setPriorityOrders() {
-        int i = 0;
-        while (i < incomingOrders.size()) {
-            if (currentTime - incomingOrders.get(0).getArrivalTime() > timeLimit) {
-                priorityOrders.add(incomingOrders.get(0));
-                incomingOrders.remove(0);
-            } else {
-                break;
+        ArrayList<DroneOrder> toremove = new ArrayList<DroneOrder>();
+        Iterator<DroneOrder> it = incomingOrders.iterator();
+        while (it.hasNext()) {
+            DroneOrder order = it.next();
+            if (currentTime - order.getArrivalTime()  > timeLimit) {
+                priorityOrders.add(order);
+                toremove.add(order);
             }
+        }
+
+        for (int i = 0; i < toremove.size(); ++i) {
+            incomingOrders.remove(toremove.get(i));
         }
     }
     /**

@@ -69,7 +69,7 @@ public class StrategyBasicTest {
      * Testing the base case where all orders are at same time
      */
     public static void scenarioFour() {
-        System.out.println("---------------------- Scenario Four ----------------------");
+        System.out.println("---------------------- StrategyBasic Scenario Four ----------------------");
         String order1 = new String();
         ArrayList<String> orders = new ArrayList<String>
                 (Arrays.asList("WM001 N2W5 05:11:50", "WM002 S2E5 05:11:50", "WM003 N2E5 05:11:50", "WM004 N5E2 05:11:50"));
@@ -79,16 +79,16 @@ public class StrategyBasicTest {
         StrategyBasic thewarehouse = new StrategyBasic(server, drone, 6*3600, 22*3600);
         thewarehouse.startProcessingOrder();
         assert thewarehouse.getCompleteOrders().get(0).getOrderId().equals("WM001") : "Valid order1";
-        assert thewarehouse.getCompleteOrders().get(1).getOrderId().equals("WM002") : "Valid order2";
+        assert thewarehouse.getCompleteOrders().get(1).getOrderId().equals("WM004") : "Valid order2";
         assert thewarehouse.getCompleteOrders().get(2).getOrderId().equals("WM003") : "Valid order3";
-        assert thewarehouse.getCompleteOrders().get(3).getOrderId().equals("WM004")  : "Valid order4";
+        assert thewarehouse.getCompleteOrders().get(3).getOrderId().equals("WM002")  : "Valid order4";
     }
 
     /**
      * Testing the base case where there is huge gap in arrival of lastorder
      */
     public static void scenarioFive() {
-        System.out.println("---------------------- Scenario Five ----------------------");
+        System.out.println("---------------------- StrategyBasic Scenario Five ----------------------");
         String order1 = new String();
         ArrayList<String> orders = new ArrayList<String>
                 (Arrays.asList("WM001 N1W5 05:11:50", "WM002 S2E4 05:12:50", "WM003 N2E3 06:11:50", "WM004 N4E2 08:11:50"));
@@ -108,7 +108,7 @@ public class StrategyBasicTest {
      * Testing the base case where there is one detractor we get
      */
     public static void scenarioSix() {
-        System.out.println("---------------------- Scenario Six ----------------------");
+        System.out.println("---------------------- StrategyBasic Scenario Six ----------------------");
         String order1 = new String();
         ArrayList<String> orders = new ArrayList<String>
                 (Arrays.asList("WM005 N12E14 05:08:50", "WM004 N4E2 05:10:50", "WM001 N1W5 05:11:50", "WM002 S2E4 05:12:50", "WM003 N112E113 05:15:50"));
