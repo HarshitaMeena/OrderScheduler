@@ -11,8 +11,8 @@ public class OrderScheduler {
         CustomerOrderServer server = new CustomerOrderServer(orders);
         Drone drone = new Drone(1);
 
-        Warehouse thewarehouse = new Warehouse(server, drone, 6*3600, 22*3600);
-        thewarehouse.startProcessingOrders();
+        StrategyBasic thewarehouse = new StrategyBasic(server, drone, 6*3600, 22*3600);
+        thewarehouse.startProcessingOrder();
         System.out.println(server);
         System.out.println(6*3600);
         System.out.println(6*3600+7*60+13);
