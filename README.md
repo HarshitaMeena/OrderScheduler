@@ -20,3 +20,5 @@
 
     For Compiling and running code -
     ./run.sh
+    put your input file inside src/com/example/orderscheduler
+    output file will be in main directory
