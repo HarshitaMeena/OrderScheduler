@@ -4,7 +4,9 @@ package com.example.orderscheduler;
 public class OrderScheduler {
     public static void main(String[] args) {
 
-        //DroneOrderTest.scenarioOne();
+        DroneOrderTest.scenarioOne();
+
+        InputFileTest.scenarioOne();
 
         /**
          * Tests for the basic strategy that maintains a queue for delayed orders and shortest distance orders
