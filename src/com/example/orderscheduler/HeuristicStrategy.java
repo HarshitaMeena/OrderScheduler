@@ -45,8 +45,8 @@ public class HeuristicStrategy extends Warehouse {
             if (nextorder != null) {
                 deliveryDrone.setOrder(nextorder);
                 nextorder.setDeliveredTime(currentTime + (deliveryDrone.getArrivalTime() / 2));
-                System.out.println(nextorder);
-                System.out.println(nextorder.timeFormat(currentTime));
+                System.out.println(nextorder.getOrderId()+" "+nextorder.timeFormat(currentTime));
+                output.add(nextorder.getOrderId()+" "+nextorder.timeFormat(currentTime));
                 checkPromoterOrDetractor(nextorder);
                 currentTime += deliveryDrone.getArrivalTime();
             }

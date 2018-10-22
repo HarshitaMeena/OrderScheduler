@@ -6,7 +6,9 @@ public class OrderScheduler {
 
         DroneOrderTest.scenarioOne();
 
-        InputFileTest.scenarioOne();
+        if (args.length > 1) {
+            InputFileTest.scenarioOne(args[1]);
+        }
 
         /**
          * Tests for the basic strategy that maintains a queue for delayed orders and shortest distance orders

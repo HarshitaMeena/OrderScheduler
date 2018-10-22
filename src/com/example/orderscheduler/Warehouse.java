@@ -14,6 +14,7 @@ abstract public class Warehouse {
 
     protected CustomerOrderServer orderServer;
     protected ArrayList<DroneOrder> completeOrders;
+    protected ArrayList<String> output;
 
     abstract public void startProcessingOrder();
 
@@ -32,6 +33,7 @@ abstract public class Warehouse {
         this.promoters = 0;
         this.detractors = 0;
         completeOrders = new ArrayList<DroneOrder>();
+        output = new ArrayList<String>();
     }
 
     /**

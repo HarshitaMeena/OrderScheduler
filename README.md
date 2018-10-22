@@ -7,6 +7,7 @@
     -   The time for order delivery is taken from the arrival time and not from the warehouse open time.
     -   Orders are coming in order of there arrival time.
     -   If an order arrives before 6 AM it is considered as promoter if it is processed till 7AM.
+    -   A drone can carry one delivery at a time
 
 
     Design :
