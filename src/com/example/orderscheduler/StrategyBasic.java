@@ -16,7 +16,6 @@ public class StrategyBasic extends Warehouse {
             @Override
             public int compare(DroneOrder o1, DroneOrder o2) {
                 if (o1.getDistanceFromOrigin() == o2.getDistanceFromOrigin()) {
-                    System.out.println(o1);
                     return (int)(o1.getArrivalTime()-o2.getArrivalTime());
                 } else if (o1.getDistanceFromOrigin() > o2.getDistanceFromOrigin()) {
                     return 1;
@@ -135,7 +134,7 @@ public class StrategyBasic extends Warehouse {
         }
     }
 
-    private double getNPSValue() {
+    public double getNPSValue() {
         totalOrders += priorityOrders.size();
         totalOrders += incomingOrders.size();
         detractors += priorityOrders.size();

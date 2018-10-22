@@ -26,7 +26,11 @@ public class HeuristicStrategy extends Warehouse {
                 scoreo1 += distanceWeight*o1.getDistanceFromOrigin();
                 float scoreo2 = timeWeight*3600/((int)(currentTime-o2.getArrivalTime()));
                 scoreo2 += distanceWeight*o2.getDistanceFromOrigin();
-                return (int)(scoreo1-scoreo2);
+                if (scoreo1 >= scoreo2) {
+                    return 1;
+                } else {
+                    return -1;
+                }
             }
         });
 
@@ -86,7 +90,7 @@ public class HeuristicStrategy extends Warehouse {
         }
     }
 
-    private double getNPSValue() {
+    public double getNPSValue() {
         return 100.0*(promoters-detractors)/totalOrders;
     }
 

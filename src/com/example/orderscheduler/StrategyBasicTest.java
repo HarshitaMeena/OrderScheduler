@@ -22,6 +22,7 @@ public class StrategyBasicTest {
         assert thewarehouse.getCompleteOrders().get(1).getOrderId().equals("WM001") : "Valid order2";
         assert thewarehouse.getCompleteOrders().get(2).getOrderId().equals("WM004") : "Valid order3";
         assert thewarehouse.getCompleteOrders().get(3).getOrderId().equals("WM003")  : "Valid order4";
+        assert thewarehouse.getNPSValue() == 75.0 : "NPSValue";
     }
 
 
@@ -42,6 +43,7 @@ public class StrategyBasicTest {
         assert thewarehouse.getCompleteOrders().get(1).getOrderId().equals("WM001") : "Valid order2";
         assert thewarehouse.getCompleteOrders().get(2).getOrderId().equals("WM003") : "Valid order3";
         assert thewarehouse.getCompleteOrders().get(3).getOrderId().equals("WM004")  : "Valid order4";
+        assert thewarehouse.getNPSValue() == 50.0 : "NPSValue";
     }
 
     /**
@@ -61,6 +63,7 @@ public class StrategyBasicTest {
         assert thewarehouse.getCompleteOrders().get(1).getOrderId().equals("WM002") : "Valid order2";
         assert thewarehouse.getCompleteOrders().get(2).getOrderId().equals("WM003") : "Valid order3";
         assert thewarehouse.getCompleteOrders().get(3).getOrderId().equals("WM004")  : "Valid order4";
+        assert thewarehouse.getNPSValue() == 100.0 : "NPSValue";
     }
 
 
@@ -82,6 +85,7 @@ public class StrategyBasicTest {
         assert thewarehouse.getCompleteOrders().get(1).getOrderId().equals("WM004") : "Valid order2";
         assert thewarehouse.getCompleteOrders().get(2).getOrderId().equals("WM003") : "Valid order3";
         assert thewarehouse.getCompleteOrders().get(3).getOrderId().equals("WM002")  : "Valid order4";
+        assert thewarehouse.getNPSValue() == 100.0 : "NPSValue";
     }
 
     /**
@@ -101,6 +105,7 @@ public class StrategyBasicTest {
         assert thewarehouse.getCompleteOrders().get(1).getOrderId().equals("WM001") : "Valid order2";
         assert thewarehouse.getCompleteOrders().get(2).getOrderId().equals("WM003") : "Valid order3";
         assert thewarehouse.getCompleteOrders().get(3).getOrderId().equals("WM004")  : "Valid order4";
+        assert thewarehouse.getNPSValue() == 100.0 : "NPSValue";
     }
 
 
@@ -122,5 +127,47 @@ public class StrategyBasicTest {
         assert thewarehouse.getCompleteOrders().get(2).getOrderId().equals("WM001") : "Valid order3";
         assert thewarehouse.getCompleteOrders().get(3).getOrderId().equals("WM002")  : "Valid order4";
         assert thewarehouse.getCompleteOrders().get(4).getOrderId().equals("WM003")  : "Valid order5";
+        assert thewarehouse.getNPSValue() == 40.0 : "NPSValue";
+    }
+
+
+    /**
+     * Testing Evenly distributed orders throughout the day
+     */
+    public static void scenarioSeven() {
+        System.out.println("---------------------- StrategyBasic Scenario Seven ----------------------");
+        String order1 = new String();
+        ArrayList<String> orders = new ArrayList<String>
+                (Arrays.asList("WM001 N1W5 06:11:50", "WM002 S2E4 07:11:50", "WM003 N2E3 08:11:50", "WM004 N4E2 09:11:50"));
+        CustomerOrderServer server = new CustomerOrderServer(orders);
+        Drone drone = new Drone(1);
+
+        StrategyBasic thewarehouse = new StrategyBasic(server, drone, 6*3600, 22*3600);
+        thewarehouse.startProcessingOrder();
+        assert thewarehouse.getCompleteOrders().get(0).getOrderId().equals("WM001") : "Valid order1";
+        assert thewarehouse.getCompleteOrders().get(1).getOrderId().equals("WM002") : "Valid order2";
+        assert thewarehouse.getCompleteOrders().get(2).getOrderId().equals("WM003") : "Valid order3";
+        assert thewarehouse.getCompleteOrders().get(3).getOrderId().equals("WM004")  : "Valid order4";
+        assert thewarehouse.getNPSValue() == 100.0 : "NPSValue";
+    }
+
+    /**
+     *  First order is delaying the next set of orders
+     */
+    public static void scenarioEight() {
+        System.out.println("---------------------- StrategyBasic Scenario Eight ----------------------");
+        String order1 = new String();
+        ArrayList<String> orders = new ArrayList<String>
+                (Arrays.asList("WM001 N111W115 06:10:50", "WM002 S2E4 06:12:50", "WM003 N2E3 06:13:50", "WM004 N4E2 09:11:50"));
+        CustomerOrderServer server = new CustomerOrderServer(orders);
+        Drone drone = new Drone(1);
+
+        StrategyBasic thewarehouse = new StrategyBasic(server, drone, 6*3600, 22*3600);
+        thewarehouse.startProcessingOrder();
+        assert thewarehouse.getCompleteOrders().get(0).getOrderId().equals("WM001") : "Valid order1";
+        assert thewarehouse.getCompleteOrders().get(1).getOrderId().equals("WM002") : "Valid order2";
+        assert thewarehouse.getCompleteOrders().get(2).getOrderId().equals("WM003") : "Valid order3";
+        assert thewarehouse.getCompleteOrders().get(3).getOrderId().equals("WM004")  : "Valid order4";
+        assert thewarehouse.getNPSValue() == -50.0 : "NPSValue";
     }
 }
